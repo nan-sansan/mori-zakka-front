@@ -1,7 +1,5 @@
+import React from "react";
+
 export default function Home() {
-  return (
-    <div>
-      <h1>index</h1>
-    </div>
-  );
+  return <div>我是首頁</div>;
 }
