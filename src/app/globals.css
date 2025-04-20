@@ -24,3 +24,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.loading-class {
+  background: #ededed;
+}
+
+.loading-class-2 {
+  border: #0a0a0a solid 1px;
+}

@@ -1,14 +1,15 @@
 "use client";
 
-import useUserStore from "@/store/user";
+import React, { useEffect, useState } from "react";
 import { UserProfile } from "@/type/user.d";
 import { jwtDecode } from "jwt-decode";
-import React, { useEffect, useState } from "react";
+import useUserStore from "@/store/user";
+import useLoadingStore from "@/store/loading";
+import LoadingWrap from "@/components/Wrapper/LoadingWrap";
 
 export default function Header() {
   const token = useUserStore((state) => state.token);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
 
   useEffect(() => {
@@ -20,22 +21,22 @@ export default function Header() {
   }, [token]);
 
   const handleLogin = () => {
-    setIsLoading(true);
+    useLoadingStore.setState({ isLoading: true });
     useUserStore
       .getState()
       .login("test", "Password")
       .finally(() => {
-        setIsLoading(false);
+        useLoadingStore.setState({ isLoading: false });
       });
   };
 
   const handleLogout = () => {
-    setIsLoading(true);
+    useLoadingStore.setState({ isLoading: true });
     useUserStore
       .getState()
       .logout()
       .finally(() => {
-        setIsLoading(false);
+        useLoadingStore.setState({ isLoading: false });
       });
   };
 
@@ -67,39 +68,41 @@ export default function Header() {
         )}
       </div>
 
-      <div className="flex justify-center">
-        {!token ? (
-          <button
-            onClick={handleLogin}
-            style={{
-              padding: "10px 20px",
-              margin: "10px 0",
-              border: "1px solid #007bff",
-              borderRadius: "5px",
-              color: "#fff",
-              cursor: "pointer",
-              backgroundColor: isLoading ? "#aaaaaa" : "#007bff",
-            }}
-          >
-            登入
-          </button>
-        ) : (
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: "10px 20px",
-              margin: "10px 0",
-              border: "1px solid #6c757d",
-              borderRadius: "5px",
-              backgroundColor: "#6c757d",
-              color: "#fff",
-              cursor: "pointer",
-            }}
-          >
-            登出
-          </button>
-        )}
-      </div>
+      <LoadingWrap classNames={["loading-class", "loading-class-2"]}>
+        <div className="flex justify-center">
+          {!token ? (
+            <button
+              onClick={handleLogin}
+              style={{
+                padding: "10px 20px",
+                margin: "10px 0",
+                border: "1px solid #007bff",
+                borderRadius: "5px",
+                color: "#fff",
+                cursor: "pointer",
+                backgroundColor: "#007bff",
+              }}
+            >
+              登入
+            </button>
+          ) : (
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: "10px 20px",
+                margin: "10px 0",
+                border: "1px solid #6c757d",
+                borderRadius: "5px",
+                backgroundColor: "#6c757d",
+                color: "#fff",
+                cursor: "pointer",
+              }}
+            >
+              登出
+            </button>
+          )}
+        </div>
+      </LoadingWrap>
     </div>
   );
 }
