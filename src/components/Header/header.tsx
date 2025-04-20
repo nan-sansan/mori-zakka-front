@@ -1,15 +1,15 @@
 "use client";
 
-import { RootState } from "@/store";
-import { login, logout } from "@/store/user";
+import useUserStore from "@/store/user";
 import { UserProfile } from "@/type/user.d";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import PropsWrapper from "@/components/Wrapper/props";
 
 export default function Header() {
-  const dispatch = useDispatch();
-  const { token } = useSelector((state: RootState) => state.user);
+  const token = useUserStore((state) => state.token);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
 
   useEffect(() => {
@@ -21,25 +21,30 @@ export default function Header() {
   }, [token]);
 
   const handleLogin = () => {
-    dispatch(
-      login({
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzQ1MDYwOTczLCJuYmYiOjE3NDUwNjA5NzMsImV4cCI6MTc0NTE0NzM3MywidXNlcklkIjoidXNlcjAwMDEiLCJuaWNrTmFtZSI6Imp3dFRlc3QiLCJyb2xlIjoidXNlciJ9.pmDOlu5jIojPyO27PgDyb72PbNfcgMxas5M3cRx479s",
-        refreshToken:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyZWZyZXNoIiwiaWF0IjoxNzQ1MDYwOTczLCJuYmYiOjE3NDUwNjA5NzMsImV4cCI6MTc0NTE0NzM3MywidXNlcklkIjoidXNlcjAwMDEiLCJyb2xlIjoicmVmcmVzaCJ9.YugNxKI1EWbqw0pbsTenBMNtbpqU_bu9zuGai01tag4",
-      })
-    );
+    setIsLoading(true);
+    useUserStore
+      .getState()
+      .login("test", "Password")
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    setIsLoading(true);
+    useUserStore
+      .getState()
+      .logout()
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
     <div>
       <h1>登入狀態測試</h1>
 
-      <button
+      <div
         style={{
           padding: "10px 20px",
           marginBottom: "10px",
@@ -49,6 +54,7 @@ export default function Header() {
           color: userInfo ? "#155724" : "#721c24",
           cursor: "default",
           display: "block",
+          margin: "10px",
         }}
       >
         {userInfo ? (
@@ -60,9 +66,9 @@ export default function Header() {
         ) : (
           "未登入"
         )}
-      </button>
+      </div>
 
-      <div>
+      <div className="flex justify-center">
         {!token ? (
           <button
             onClick={handleLogin}
@@ -71,9 +77,9 @@ export default function Header() {
               margin: "10px 0",
               border: "1px solid #007bff",
               borderRadius: "5px",
-              backgroundColor: "#007bff",
               color: "#fff",
               cursor: "pointer",
+              backgroundColor: isLoading ? "#aaaaaa" : "#007bff",
             }}
           >
             登入

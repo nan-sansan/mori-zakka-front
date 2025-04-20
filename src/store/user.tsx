@@ -1,39 +1,59 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+"use client";
+
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { createStorageWrapper } from "@/util/storage";
+import { loginAPI } from "@/api/auth";
 
 type Token = string | null;
+
 interface UserState {
   token: Token;
   refreshToken: Token;
+  setToken: (token: Token) => void;
+  setRefreshToken: (refreshToken: Token) => void;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
-const userSlice = createSlice({
-  name: "user",
-  initialState: {
-    token: null,
-    refreshToken: null,
-  } as UserState,
-  reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
-    },
-    setRefreshToken: (state, action: PayloadAction<string>) => {
-      state.refreshToken = action.payload;
-    },
-    login: (
-      state,
-      action: PayloadAction<{ token: Token; refreshToken: Token }>
-    ) => {
-      const token = action.payload.token;
-      const refreshToken = action.payload.refreshToken;
-      state.token = token;
-      state.refreshToken = refreshToken;
-    },
-    logout: (state) => {
-      state.token = null;
-      state.refreshToken = null;
-    },
-  },
-});
+const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      token: null,
+      refreshToken: null,
 
-export const { setToken, setRefreshToken, login, logout } = userSlice.actions;
-export default userSlice.reducer;
+      setToken: (token) => {
+        set(() => ({
+          token,
+        }));
+      },
+
+      setRefreshToken: (refreshToken) => {
+        set(() => ({
+          refreshToken,
+        }));
+      },
+
+      login: async (username, password) => {
+        const { token, refreshToken } = await loginAPI(username, password);
+        set(() => ({
+          token,
+          refreshToken,
+        }));
+      },
+
+      logout: async () => {
+        set(() => ({
+          token: null,
+          refreshToken: null,
+        }));
+      },
+    }),
+    {
+      name: "user",
+      storage: createStorageWrapper("session"),
+    },
+  ),
+);
+
+export default useUserStore;
