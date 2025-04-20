@@ -4,7 +4,6 @@ import useUserStore from "@/store/user";
 import { UserProfile } from "@/type/user.d";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import PropsWrapper from "@/components/Wrapper/props";
 
 export default function Header() {
   const token = useUserStore((state) => state.token);
