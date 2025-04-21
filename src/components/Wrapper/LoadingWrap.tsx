@@ -1,41 +1,48 @@
 import React, { ReactNode, isValidElement, cloneElement } from "react";
 import useLoadingStore from "@/store/loading";
 
-interface PropsWrapper {
-  children: ReactNode;
-  classNames?: string[];
+interface LoadingChildProps {
+  className?: string;
+  disabled?: boolean;
 }
 
-const LoadingWrap: React.FC<PropsWrapper> = ({
+interface LoadingWrapProps {
+  children: ReactNode;
+  className?: string;
+}
+
+/**
+ * LoadingWrap 組件
+ *
+ * 根據 loading 狀態為子組件動態添加 className 與 disabled 屬性。
+ *
+ * 功能：
+ * - loading 狀態下，為所有子組件添加指定的 classNames。
+ * - 自動更新每個子組件的 className 與 disabled 屬性。
+ *
+ * Props:
+ * - children：需要被包裝的子組件。
+ * - classNames：loading 狀態下需要添加的 CSS 類名集合（預設為 []）。
+ */
+export default function LoadingWrap({
   children,
-  classNames = ["loading-class"],
-}) => {
+  className = "",
+}: LoadingWrapProps) {
   const isLoading = useLoadingStore((state) => state.isLoading);
-  const triggerClassSet = new Set(classNames);
 
   const wrappedChildren = React.Children.map(children, (child) => {
-    if (isValidElement<{ className?: string }>(child)) {
-      const childElement = child as React.ReactElement<{ className?: string }>;
-      const childClassName = childElement.props.className || "";
-      const childClassSet = new Set(childClassName.split(" "));
-
-      if (isLoading) {
-        triggerClassSet.forEach((c) => childClassSet.add(c));
-      } else {
-        triggerClassSet.forEach((c) => childClassSet.delete(c));
-      }
-
-      const newClassName = Array.from(childClassSet).join(" ");
-
-      return cloneElement(child, {
-        className: newClassName,
-        ...{ disabled: isLoading },
-      });
+    if (!isLoading || !isValidElement<LoadingChildProps>(child)) {
+      return child;
     }
-    return child;
+
+    const existingClassName = child.props.className ?? "";
+    const newClassName = `${existingClassName} ${className}`.trim();
+
+    return cloneElement(child, {
+      className: newClassName,
+      disabled: isLoading,
+    });
   });
 
   return <>{wrappedChildren}</>;
-};
-
-export default LoadingWrap;
+}
