@@ -22,7 +22,7 @@ interface LoadingWrapProps {
  *
  * Props:
  * - children：需要被包裝的子組件。
- * - classNames：loading 狀態下需要添加的 CSS 類名集合（預設為 []）。
+ * - className：loading 狀態下需要添加的 CSS 類名（預設為 ""）。
  */
 export default function LoadingWrap({
   children,
