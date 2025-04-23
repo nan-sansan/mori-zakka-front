@@ -1,0 +1,145 @@
+.header {
+    background-color: #F5EFE4;
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+
+    @media only screen and (max-width: 768px) {
+        width: 100vw;
+        height: 10vh;
+    }
+}
+
+.mainNav {
+    width: 100%;
+    max-width: 1920px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    box-sizing: border-box;
+    padding-bottom: 7px;
+    padding-left: 4.5%;
+    padding-right: 2%;
+    font-size: 1.7em;
+
+    .mainNavList {
+        list-style: none;
+        margin: 0 0 4px 0;
+        padding: 0;
+        display: flex;
+        justify-content: space-evenly;
+        min-width: 20em;
+
+        @media only screen and (max-width: 1024px) {
+            display: none;
+        }
+    }
+
+    .mainNavItem {
+        text-decoration: none;
+        /* color: black; */
+    }
+
+    .pushRight {
+        flex-grow: 1;
+
+        @media only screen and (max-width: 1024px) {
+            display: none;
+        }
+    }
+}
+
+.navLogo {
+    width: 225px;
+
+    img {
+        width: 100%;
+        object-fit: cover;
+    }
+
+    @media only screen and (max-width: 768px) {
+        width: 45vw;
+        max-width: 225px;
+    }
+}
+
+.memberArea {
+    display: flex;
+    justify-content: space-between;
+    width: 115px;
+    margin-left: 3%;
+
+    @media only screen and (max-width: 768px) {
+        width: 20vw;
+        margin-left: 0;
+    }
+
+    .memberAreaImg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.navCart {
+    width: 42px;
+    height: 42px;
+
+    @media only screen and (max-width: 768px) {
+        width: 8vw;
+        height: 8vw;
+        max-width: 42px;
+    }
+}
+
+.navUser {
+    width: 44px;
+    height: 44px;
+
+    @media only screen and (max-width: 768px) {
+        width: 8vw;
+        height: 8vw;
+        max-width: 44px;
+    }
+}
+
+.navBurger {
+    display: none;
+
+    @media only screen and (max-width: 1024px) {
+        display: block;
+        padding-top: 10px;
+        font-size: 2em;
+    }
+}
+
+.navDropdown {
+    display: none;
+    position: fixed;
+    top: 75px;
+    left: 0;
+    height: 100vh;
+    width: 50vw;
+    background-color: #F5EFE4;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    @media only screen and (max-width: 768px) {
+        top: 10vh;
+    }
+
+    .navDropdownItem {
+        display: block;
+        padding: 10%;
+        font-size: 0.6em;
+        border-bottom: 1px solid #Caaaa3;
+    }
+}
+
+.mobMenuTrigger {
+    font-weight: bold;
+}
