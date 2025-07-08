@@ -1,70 +1,57 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   return (
-    <div>
-      <header>
-        <nav className="main-nav">
-          <div className="nav-burger">
-            <a href="#" id="mob-menu-trigger">
-              ≡
-            </a>
-            <div id="mob-menu" className="nav-dropdown">
-              <a href="allNEWS.html">全部消息</a>
-              <a href="about.html">關於我們</a>
-              <a href="allItems.html">所有商品</a>
-              <a href="FAQ.html">FAQ</a>
-            </div>
+    <>
+      <header className="bg-[var(--main-color)] fixed top-0 w-full">
+        <nav className="flex items-center justify-around">
+          <div className="nav-logo relative aspect-[3/1] w-[150px]">
+            <Image
+              src="/assest/logo.png"
+              alt="LOGO"
+              fill
+              className="object-contain"
+            />
           </div>
-          <div className="nav-logo">
-            <a href="index.html">
-              <Image
-                src="/assest/logo.png"
-                alt="LOGO"
-                width={100}
-                height={50}
-              />
-            </a>
-          </div>
-          <div className="push-right"></div>
-          <ul>
+          <ul className="flex gap-7 items-baseline">
             <li>
-              <a href="allNEWS.html">全部消息</a>
+              <Link href="allNEWS.html">全部消息</Link>
             </li>
             <li>
-              <a href="about.html">關於我們</a>
+              <Link href="about.html">關於我們</Link>
             </li>
             <li>
-              <a href="allItems.html">所有商品</a>
+              <Link href="allItems.html">所有商品</Link>
             </li>
             <li>
-              <a href="FAQ.html">FAQ</a>
+              <Link href="FAQ.html">FAQ</Link>
             </li>
           </ul>
-          <div className="member-area">
+          <div className="member-area flex gap-5">
             <div className="nav-cart">
-              <a href="#">
+              <Link href="#">
                 <Image
                   src="/assest/cart.png"
                   alt="購物車"
                   width={24}
                   height={24}
                 />
-              </a>
+              </Link>
             </div>
             <div className="nav-user">
-              <a href="#">
+              <Link href="#">
                 <Image
                   src="/assest/member.png"
                   alt="會員"
                   width={24}
                   height={24}
                 />
-              </a>
+              </Link>
             </div>
           </div>
         </nav>
       </header>
-    </div>
+    </>
   );
 }
