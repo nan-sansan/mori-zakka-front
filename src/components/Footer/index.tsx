@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <div>
+    <footer className="bg-[var(--main-color)] bottom-0 w-full fixed">
       <h1>footer</h1>
-    </div>
+    </footer>
   );
 }

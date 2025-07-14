@@ -9,13 +9,13 @@ export default function HomeBanner() {
     >
       <p
         style={{ writingMode: "vertical-rl" }}
-        className="text-[28px] mb-[25%] ml-[17.5%]"
+        className="text-[28px] mb-[10%] ml-[17.5%]"
       >
         簡單生活
       </p>
       <p
         style={{ writingMode: "vertical-rl" }}
-        className="text-[28px]  mb-[10%] "
+        className="text-[28px]  mb-[5%] "
       >
         隨心所欲
       </p>

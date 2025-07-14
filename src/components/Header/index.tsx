@@ -22,7 +22,7 @@ export default function Header() {
               <Link href="about.html">關於我們</Link>
             </li>
             <li>
-              <Link href="allItems.html">所有商品</Link>
+              <Link href="/Products">所有商品</Link>
             </li>
             <li>
               <Link href="FAQ.html">FAQ</Link>
